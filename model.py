@@ -70,6 +70,7 @@ train_generator = generator(train_samples, batch_size=32)
 validation_generator = generator(validation_samples, batch_size=32)
 
 model.compile(loss='mse', optimizer='adam')
+
 # Samples per epoch is * 2, cause for each batch we return double images (normal and flipped)
 history_object = model.fit_generator(train_generator, \
             samples_per_epoch=(len(train_samples) * 2), \
@@ -78,6 +79,10 @@ history_object = model.fit_generator(train_generator, \
             nb_epoch=3, verbose=1)
 
 model.save('model.h5')
+
+# Model visualization
+from keras.utils.visualize_util import plot as model_plot
+model_plot(model, to_file='images/model.png', show_shapes=True, show_layer_names=False)
 
 ### plot the training and validation loss for each epoch
 plt.plot(history_object.history['loss'])
